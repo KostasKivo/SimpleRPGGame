@@ -1,17 +1,25 @@
 import random
 
+# TODO: Fight functons, event fucntions and game
+
 # 4 random events
 random_events = ["Lucky in your misfortune, you found an oasis while wandering. You rested there and restored\n "
-                 "your health and mana.",
+                 "your health and mana.\n",
                  "While trying to find your way home a snake bit you. You camped for some hours to rest. You lost\n"
-                 "3 health and 2 mana",
+                 "3 health and 2 mana\n",
                  "Hearing some voices in the distance you start to run, you arrive at the place but you see only some\n"
-                 "skeletons.Your sanity is vanishing slowly ... You have to find your way back!",
+                 "skeletons.Your sanity is vanishing slowly ... You have to find your way back!\n",
                  "Hearing some voices in the distance you start to run, you arrive at the place and you find a better\n"
-                 "sword...Someone is helping you..."]
+                 "sword...Someone is helping you...\n"]
 
-#
-random_fights = [""]
+# 4 random events
+random_fights = ["In the distance you see a bulky pirate , you gather your remaining strength to seem as intimidating\n"
+                 "as possible.\n",
+                 "You hear a wounded pirate resting on a tree , a perfect timing for an ambush...\n",
+                 "An arrow just passes your head , wounding your ear , you take out your sword as fast as possible\n"
+                 "and rush your enemy.\n",
+                 "While grunting from your exhaustion you hear someone approach you from the back, you see a filthy \n"
+                 "pirate ready for a fight.\n"]
 
 
 def opening_menu():

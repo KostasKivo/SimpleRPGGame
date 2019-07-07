@@ -27,8 +27,16 @@ if answer == 1:
             moves_num += 1
 
         while moves_num < 4:
-            # something
-            x = 5
+            '''
+            Generate a random number between 0,1 
+            If it's less than 0,5 spawn a random event
+            If it's more or equal than 0,5 spawn a random fight
+            '''
+            day_event = random.uniform(0, 1)
+            print(day_event)
+            moves_num += 1
+
+        day_num += 1
 
 
 elif answer == 2:

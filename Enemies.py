@@ -4,7 +4,7 @@ class Enemies:
     enemy_attack = 3
     enemy_mana = 10
 
-
+    filthy_pirate = Enemies()
 
     def __init__(self, name="Filthy Pirate", health=7, attack=3, mana=10):
         self.enemy_health = health
