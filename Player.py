@@ -3,6 +3,7 @@ class Player:
     player_health = 20
     player_mana = 10
     player_attack = 5
+    player_magic_attack = 7
     player_bagslots = 2
 
     def __init__(self, name="Jørgen", health=20, mana=10, attack=5, bagslots=2):

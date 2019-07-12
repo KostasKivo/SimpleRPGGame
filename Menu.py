@@ -1,6 +1,5 @@
 import random
-
-# TODO: Fight functons, event fucntions and game
+from Enemies import *
 
 # 4 random events
 random_events = ["Lucky in your misfortune, you found an oasis while wandering. You rested there and restored\n "
@@ -36,43 +35,106 @@ def opening_menu():
         return 2
 
 
-def first_encounter(player, enemy):
-    print("\nWhile aimlessly walking in the desert you heard a voice\n"
-          "with all the energy left you go there only to see a filthy pirate\n"
-          "looking viciously at you. You have to fight him!"
-          "\n")
+def enemy_encounter(player, enemy):
 
     while enemy.enemy_health > 0 and player.player_health > 0:
 
         answer = fight_menu()
 
         if answer == "1":
-            player_damage = random.randint(player.player_attack-2, player.player_attack)
-            enemy_damage = random.randint(enemy.enemy_attack-2, enemy.enemy_attack)
-            print(player.player_name + " attacked and dealt ", player_damage,
-                  "damage.")
-            print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.")
-            player.player_health -= enemy_damage
-            enemy.enemy_health -= player_damage
-
+            damage_phase(player, enemy, "p")
         elif answer == "2":
-            return
-        elif answer == "3":
-            return
+            answer = spell_menu()
+
+            if answer == 1 and player.player_mana >= 3:
+                damage_phase(player, enemy, "s")
+            elif answer == 2 and player.player_mana >= 2:
+                damage_phase(player, enemy, "s")
+            elif answer == 3 and player.player_mana >= 1:
+                damage_phase(player, enemy, "s")
+            else:
+                print("Not enough mana!\n")
 
     if enemy.enemy_health <= 0:
         print(enemy.enemy_name + " fainted.\n"
-                                 "You have ", player.player_health, " health.")
+                                 "You have ", player.player_health, " health.\n")
         return
     elif player.player_health <= 0:
         print(player.player_name + " fainted.\n "
-                                   "Game over!\n\n\n\n\n\n\n")
+                                   "Game over!\n\n\n\n\n\n\n\n\n")
         opening_menu()
 
 
 def fight_menu():
     answer = input(
-        "\nPress 1 to attack"
+        "Press 1 to attack"
         "\n press 2 to use magic"
         "\n press 3 to use inventory\n")
     return answer
+
+
+def events_chooser(event_float, event_num, player):
+    if event_float < 0.5:
+
+        if event_num == 0:
+            print(random_events[event_num])
+            player.player_health += 20
+            player.player_mana += 10
+        elif event_num == 1:
+            print(random_events[event_num])
+            player.player_health -= 3
+            player.player_mana -= 2
+            player_has_died(player)
+        elif event_num == 2:
+            print(random_events[event_num])
+        elif event_num == 3:
+            print(random_events[event_num])
+            player.player_attack += 2
+
+    elif event_float >= 0.5:
+
+        if event_num == 0:
+            print(random_fights[event_num])
+            enemy = Enemies()
+            enemy_encounter(player, enemy)
+        elif event_num == 1:
+            print(random_fights[event_num])
+            enemy = Enemies()
+            enemy_encounter(player, enemy)
+        elif event_num == 2:
+            print(random_fights[event_num])
+            enemy = Enemies()
+            enemy_encounter(player, enemy)
+        elif event_num == 3:
+            print(random_fights[event_num])
+            enemy = Enemies()
+            enemy_encounter(player, enemy)
+
+
+def player_has_died(player):
+    if player.player_health <= 0:
+        print(player.player_name + " fainted.\n "
+                                   "Game over!\n\n\n\n\n\n\n")
+        opening_menu()
+
+
+def spell_menu():
+    answer = input(
+        "Press 1 for fireball, costs 3 mana"
+        "\n Press 2 for ice crystals, costs 2 mana"
+        "\n Rress 3 to heal, costs 1 mana\n")
+    return answer
+
+
+def damage_phase(player,enemy, damage_type_string):
+    if damage_type_string == "p":
+        player_damage = random.randint(player.player_attack - 2, player.player_attack)
+    else:
+        player_damage = random.randint(player.player_magic_attack - 2, player.player_magic_attack)
+
+    enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
+    print(player.player_name + " attacked and dealt ", player_damage,
+          "damage.")
+    print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
+    player.player_health -= enemy_damage
+    enemy.enemy_health -= player_damage
