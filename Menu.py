@@ -23,7 +23,7 @@ random_fights = ["In the distance you see a bulky pirate , you gather your remai
 
 def opening_menu():
     answer = input(
-        "Greetings traveller,\n"   
+        "\nGreetings traveller,\n"   
         "Press 1 to start game,\n"     
         "press 2 to exit\n")
 
@@ -44,14 +44,22 @@ def enemy_encounter(player, enemy):
         if answer == "1":
             damage_phase(player, enemy, "p")
         elif answer == "2":
+
             answer = spell_menu()
 
-            if answer == 1 and player.player_mana >= 3:
+            print(player.player_mana >= 3)
+            print(answer is 1)
+            print(answer)
+
+            if int(answer) == 1 and player.player_mana >= 3:
+                player.player_mana -= 3
                 damage_phase(player, enemy, "s")
-            elif answer == 2 and player.player_mana >= 2:
+            elif int(answer) == 2 and player.player_mana >= 2:
+                player.player_mana -= 2
                 damage_phase(player, enemy, "s")
-            elif answer == 3 and player.player_mana >= 1:
-                damage_phase(player, enemy, "s")
+            elif int(answer) == 3 and player.player_mana >= 1:
+                player.player_mana -= 1
+                damage_phase(player, enemy, "h")
             else:
                 print("Not enough mana!\n")
 
@@ -126,15 +134,44 @@ def spell_menu():
     return answer
 
 
-def damage_phase(player,enemy, damage_type_string):
+def damage_phase(player, enemy, damage_type_string):
+
+    player_damage = None
+
     if damage_type_string == "p":
         player_damage = random.randint(player.player_attack - 2, player.player_attack)
-    else:
+        damage_overview = "{} attacked and dealt {} damage.\n"
+    elif damage_type_string == "s":
         player_damage = random.randint(player.player_magic_attack - 2, player.player_magic_attack)
+        damage_overview = "{} attacked and dealt {} damage.\n"
+    elif damage_type_string == "h":
+        player_heal = random.randint(player.player_health, 20)
+
+        if player.player_health >= 20:
+            damage_overview = "{} already had max health.\n"
+            print(damage_overview.format(player.player_name))
+
+            # Not the best solution
+            enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
+            print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
+            player.player_health -= enemy_damage
+            enemy.enemy_health -= player_damage
+            return
+
+        elif player.player_health < 20:
+            damage_overview = "{} healed for {} points of health.\n"
+            print(damage_overview.format(player.player_name, player_heal))
+
+            # Not the best solution
+            enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
+            print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
+            player.player_health -= enemy_damage
+            enemy.enemy_health -= player_damage
+            return
 
     enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
-    print(player.player_name + " attacked and dealt ", player_damage,
-          "damage.")
+    print(damage_overview.format(player.player_name, player_damage))
     print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
     player.player_health -= enemy_damage
     enemy.enemy_health -= player_damage
+
