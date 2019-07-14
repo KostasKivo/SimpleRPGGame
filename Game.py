@@ -19,7 +19,9 @@ if answer == 1:
     while day_num < 5:
 
         moves_num = 0
-        print("DAY ", day_num, "\n")
+        print("DAY ", day_num)
+
+        print("--------------------------------------------\n")
 
         if day_num == 1:
             print("\nWhile aimlessly walking in the desert you heard a voice\n"
@@ -42,7 +44,6 @@ if answer == 1:
             moves_num += 1
 
         day_num += 1
-        print("\n\n")
 
     print("After this big adventure , you finally found your way home.\n"
           "You see the castle in the distance and tears start streaming from your face.\n"

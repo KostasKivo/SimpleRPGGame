@@ -1,5 +1,6 @@
 import random
 from Enemies import *
+import sys
 
 # 4 random events
 random_events = ["Lucky in your misfortune, you found an oasis while wandering. You rested there and restored\n "
@@ -7,7 +8,7 @@ random_events = ["Lucky in your misfortune, you found an oasis while wandering. 
                  "While trying to find your way home a snake bit you. You camped for some hours to rest. You lost\n"
                  "3 health and 2 mana\n",
                  "Hearing some voices in the distance you start to run, you arrive at the place but you see only some\n"
-                 "skeletons.Your sanity is vanishing slowly ... You have to find your way back!\n",
+                 "skeletons.Your sanity is vanishing slsowly ... You have to find your way back!\n",
                  "Hearing some voices in the distance you start to run, you arrive at the place and you find a better\n"
                  "sword...Someone is helping you...\n"]
 
@@ -47,10 +48,6 @@ def enemy_encounter(player, enemy):
 
             answer = spell_menu()
 
-            print(player.player_mana >= 3)
-            print(answer is 1)
-            print(answer)
-
             if int(answer) == 1 and player.player_mana >= 3:
                 player.player_mana -= 3
                 damage_phase(player, enemy, "s")
@@ -76,8 +73,7 @@ def enemy_encounter(player, enemy):
 def fight_menu():
     answer = input(
         "Press 1 to attack"
-        "\n press 2 to use magic"
-        "\n press 3 to use inventory\n")
+        "\n press 2 to use magic\n")
     return answer
 
 
@@ -88,42 +84,49 @@ def events_chooser(event_float, event_num, player):
             print(random_events[event_num])
             player.player_health += 20
             player.player_mana += 10
+            print("--------------------------------------------\n")
         elif event_num == 1:
             print(random_events[event_num])
             player.player_health -= 3
             player.player_mana -= 2
+            print("--------------------------------------------\n")
             player_has_died(player)
         elif event_num == 2:
             print(random_events[event_num])
+            print("--------------------------------------------\n")
         elif event_num == 3:
             print(random_events[event_num])
             player.player_attack += 2
+            print("--------------------------------------------\n")
 
     elif event_float >= 0.5:
 
         if event_num == 0:
             print(random_fights[event_num])
-            enemy = Enemies()
+            enemy = Enemies("Bulky Pirate", 10, 5)
             enemy_encounter(player, enemy)
+            print("--------------------------------------------\n")
         elif event_num == 1:
             print(random_fights[event_num])
-            enemy = Enemies()
+            enemy = Enemies("Ambushing Pirate", 5, 7)
             enemy_encounter(player, enemy)
+            print("--------------------------------------------\n")
         elif event_num == 2:
             print(random_fights[event_num])
-            enemy = Enemies()
+            enemy = Enemies("Ambushing Pirate", 5, 7)
             enemy_encounter(player, enemy)
+            print("--------------------------------------------\n")
         elif event_num == 3:
             print(random_fights[event_num])
-            enemy = Enemies()
+            enemy = Enemies("Scared Pirate", 5, 3)
             enemy_encounter(player, enemy)
+            print("--------------------------------------------\n")
 
 
 def player_has_died(player):
     if player.player_health <= 0:
-        print(player.player_name + " fainted.\n "
-                                   "Game over!\n\n\n\n\n\n\n")
-        opening_menu()
+        print(player.player_name + " fainted.\n ")
+        sys.exit("Game over!\n\n\n\n\n\n\n")
 
 
 def spell_menu():
@@ -137,25 +140,25 @@ def spell_menu():
 def damage_phase(player, enemy, damage_type_string):
 
     player_damage = None
+    damage_overview = None
 
     if damage_type_string == "p":
         player_damage = random.randint(player.player_attack - 2, player.player_attack)
-        damage_overview = "{} attacked and dealt {} damage.\n"
+        damage_overview = "{} attacked and dealt {} damage."
     elif damage_type_string == "s":
         player_damage = random.randint(player.player_magic_attack - 2, player.player_magic_attack)
-        damage_overview = "{} attacked and dealt {} damage.\n"
+        damage_overview = "{} attacked and dealt {} damage."
     elif damage_type_string == "h":
         player_heal = random.randint(player.player_health, 20)
 
         if player.player_health >= 20:
-            damage_overview = "{} already had max health.\n"
+            damage_overview = "{} already had max health."
             print(damage_overview.format(player.player_name))
 
             # Not the best solution
             enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
             print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
             player.player_health -= enemy_damage
-            enemy.enemy_health -= player_damage
             return
 
         elif player.player_health < 20:
@@ -166,7 +169,6 @@ def damage_phase(player, enemy, damage_type_string):
             enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
             print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
             player.player_health -= enemy_damage
-            enemy.enemy_health -= player_damage
             return
 
     enemy_damage = random.randint(enemy.enemy_attack - 2, enemy.enemy_attack)
@@ -174,4 +176,3 @@ def damage_phase(player, enemy, damage_type_string):
     print(enemy.enemy_name + " attacked and dealt ", enemy_damage, " damage.\n")
     player.player_health -= enemy_damage
     enemy.enemy_health -= player_damage
-
