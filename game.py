@@ -1,6 +1,6 @@
-from Menu import *
-from Player import *
-from Enemies import *
+from menu import *
+from player import *
+from enemies import *
 
 answer = opening_menu()
 

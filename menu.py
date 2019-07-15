@@ -1,5 +1,5 @@
 import random
-from Enemies import *
+from enemies import *
 import sys
 
 # 4 random events
